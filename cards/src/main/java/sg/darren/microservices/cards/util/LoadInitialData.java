@@ -1,10 +1,10 @@
-package sg.darren.retailbank.cards.util;
+package sg.darren.microservices.cards.util;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import sg.darren.retailbank.cards.model.Card;
-import sg.darren.retailbank.cards.repository.CardRepository;
+import sg.darren.microservices.cards.model.Card;
+import sg.darren.microservices.cards.repository.CardRepository;
 
 import java.util.Date;
 
