@@ -1,11 +1,8 @@
-package sg.darren.retailbank.cards.repository;
+package sg.darren.microservices.cards.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import sg.darren.retailbank.cards.model.Account;
-import sg.darren.retailbank.cards.model.Customer;
-
-import java.util.List;
+import sg.darren.microservices.cards.model.Customer;
 
 @Repository
 public interface CustomerRepository extends JpaRepository<Customer, Long> {

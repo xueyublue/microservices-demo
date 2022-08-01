@@ -1,12 +1,12 @@
-package sg.darren.retailbank.cards.controller;
+package sg.darren.microservices.cards.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import sg.darren.retailbank.cards.model.Account;
-import sg.darren.retailbank.cards.model.Customer;
-import sg.darren.retailbank.cards.repository.AccountRepository;
+import sg.darren.microservices.cards.model.Account;
+import sg.darren.microservices.cards.model.Customer;
+import sg.darren.microservices.cards.repository.AccountRepository;
 
 import java.util.List;
 
