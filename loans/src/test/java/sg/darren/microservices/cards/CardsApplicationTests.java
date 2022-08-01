@@ -1,4 +1,4 @@
-package sg.darren.retailbank.cards;
+package sg.darren.microservices.cards;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

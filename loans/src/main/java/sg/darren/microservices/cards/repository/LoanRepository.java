@@ -1,8 +1,8 @@
-package sg.darren.retailbank.cards.repository;
+package sg.darren.microservices.cards.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import sg.darren.retailbank.cards.model.Loan;
+import sg.darren.microservices.cards.model.Loan;
 
 import java.util.List;
 
