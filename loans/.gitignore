@@ -31,3 +31,5 @@ build/
 
 ### VS Code ###
 .vscode/
+/loans.mv.db
+/loans.trace.db
