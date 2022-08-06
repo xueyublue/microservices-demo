@@ -63,7 +63,7 @@
 						</exclude>
 					</excludes>
 					<image>
-						<name>microservices/${project.artifactId}</name>
+						<name>xueyudarren/ms-${project.artifactId}</name>
 					</image>
 				</configuration>
 			</plugin>
