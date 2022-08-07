@@ -1,0 +1,30 @@
+version: "3.8"
+
+services:
+
+  accounts:
+    image: xueyudarren/ms-accounts:latest
+    mem_limit: 700m
+    ports:
+      - "8080:8080"
+    networks:
+      - xueyudarren-network
+    
+  loans:
+    image: xueyudarren/ms-loans:latest
+    mem_limit: 700m
+    ports:
+      - "8081:8081"
+    networks:
+      - xueyudarren-network
+    
+  cards:
+    image: xueyudarren/ms-cards:latest
+    mem_limit: 700m
+    ports:
+      - "8082:8082"
+    networks:
+      - xueyudarren-network
+    
+networks:
+  xueyudarren-network:
