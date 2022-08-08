@@ -27,7 +27,7 @@ services:
         window: 120s
     environment:
       SPRING_PROFILES_ACTIVE: dev
-      SPRING_CONFIG_IMPORT: configserver:http://localhost:8090/
+      SPRING_CONFIG_IMPORT: configserver:http://configserver:8090/
 
   loans:
     image: xueyudarren/ms-loans:latest
@@ -46,7 +46,7 @@ services:
         window: 120s
     environment:
       SPRING_PROFILES_ACTIVE: dev
-      SPRING_CONFIG_IMPORT: configserver:http://localhost:8090/
+      SPRING_CONFIG_IMPORT: configserver:http://configserver:8090/
 
   cards:
     image: xueyudarren/ms-cards:latest
@@ -65,7 +65,8 @@ services:
         window: 120s
     environment:
       SPRING_PROFILES_ACTIVE: dev
-      SPRING_CONFIG_IMPORT: configserver:http://localhost:8090/
+      SPRING_CONFIG_IMPORT: configserver:http://configserver:8090/
 
 networks:
   xueyudarren-network:
+    driver: bridge
