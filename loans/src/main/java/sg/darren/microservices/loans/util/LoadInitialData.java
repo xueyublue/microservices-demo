@@ -1,10 +1,10 @@
-package sg.darren.microservices.cards.util;
+package sg.darren.microservices.loans.util;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import sg.darren.microservices.cards.model.Loan;
-import sg.darren.microservices.cards.repository.LoanRepository;
+import sg.darren.microservices.loans.model.Loan;
+import sg.darren.microservices.loans.repository.LoanRepository;
 
 import java.util.Date;
 

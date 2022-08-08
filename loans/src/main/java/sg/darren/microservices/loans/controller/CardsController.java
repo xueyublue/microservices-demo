@@ -1,4 +1,4 @@
-package sg.darren.microservices.cards.controller;
+package sg.darren.microservices.loans.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -8,11 +8,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import sg.darren.microservices.cards.config.CardsServiceConfig;
-import sg.darren.microservices.cards.model.Card;
-import sg.darren.microservices.cards.model.Customer;
-import sg.darren.microservices.cards.model.Properties;
-import sg.darren.microservices.cards.repository.CardRepository;
+import sg.darren.microservices.loans.config.LoansServiceConfig;
+import sg.darren.microservices.loans.model.Customer;
+import sg.darren.microservices.loans.model.Loan;
+import sg.darren.microservices.loans.model.Properties;
+import sg.darren.microservices.loans.repository.LoanRepository;
 
 import java.util.List;
 
@@ -20,22 +20,22 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CardsController {
 
-    private final CardRepository cardRepository;
-    private final CardsServiceConfig cardsServiceConfig;
+    private final LoanRepository loanRepository;
+    private final LoansServiceConfig loansServiceConfig;
 
-    @PostMapping("/cards")
-    public List<Card> getCardList(@RequestBody Customer customer) {
-        return cardRepository.findByCustomerId(customer.getCustomerId());
+    @PostMapping("/loans")
+    public List<Loan> getCardList(@RequestBody Customer customer) {
+        return loanRepository.findByCustomerIdOrderByStartDtDesc(customer.getCustomerId());
     }
 
     @GetMapping("/properties")
     public String getPropertyDetails() throws JsonProcessingException {
         ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
         Properties properties = new Properties(
-                cardsServiceConfig.getMsg(),
-                cardsServiceConfig.getBuildVersion(),
-                cardsServiceConfig.getMailDetails(),
-                cardsServiceConfig.getActiveBranches());
+                loansServiceConfig.getMsg(),
+                loansServiceConfig.getBuildVersion(),
+                loansServiceConfig.getMailDetails(),
+                loansServiceConfig.getActiveBranches());
         return ow.writeValueAsString(properties);
     }
 
