@@ -3,58 +3,20 @@ version: "3.8"
 services:
 
   configserver:
-    image: eazybytes/configserver:latest
-    mem_limit: 700m
-    ports:
-      - "8071:8071"
-    networks:
-     - eazybank
-      
-  accounts:
-    image: eazybytes/accounts:latest
-    mem_limit: 700m
-    ports:
-      - "8080:8080"
-    networks:
-      - eazybank
-    depends_on:
-      - configserver
-    deploy:
-      restart_policy:
-        condition: on-failure
-        delay: 5s
-        max_attempts: 3
-        window: 120s
-    environment:
-      SPRING_PROFILES_ACTIVE: dev
-      SPRING_CONFIG_IMPORT: configserver:http://configserver:8071/
-  
-  loans:
-    image: eazybytes/loans:latest
+    image: xueyudarren/ms-configserver:latest
     mem_limit: 700m
     ports:
       - "8090:8090"
     networks:
-      - eazybank
-    depends_on:
-      - configserver
-    deploy:
-      restart_policy:
-        condition: on-failure
-        delay: 5s
-        max_attempts: 3
-        window: 120s
-    environment:
-      SPRING_PROFILES_ACTIVE: dev
-      SPRING_CONFIG_IMPORT: configserver:http://configserver:8071/
-    
-  cards:
-    image: eazybytes/cards:latest
+      - xueyudarren-network
+
+  accounts:
+    image: xueyudarren/ms-accounts:latest
     mem_limit: 700m
     ports:
-      - "9000:9000"
+      - "8080:8080"
     networks:
-      - eazybank
+      - xueyudarren-network
     depends_on:
       - configserver
     deploy:
@@ -65,7 +27,45 @@ services:
         window: 120s
     environment:
       SPRING_PROFILES_ACTIVE: dev
-      SPRING_CONFIG_IMPORT: configserver:http://configserver:8071/
-      
+      SPRING_CONFIG_IMPORT: configserver:http://localhost:8090/
+
+  loans:
+    image: xueyudarren/ms-loans:latest
+    mem_limit: 700m
+    ports:
+      - "8081:8081"
+    networks:
+      - xueyudarren-network
+    depends_on:
+      - configserver
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+      SPRING_CONFIG_IMPORT: configserver:http://localhost:8090/
+
+  cards:
+    image: xueyudarren/ms-cards:latest
+    mem_limit: 700m
+    ports:
+      - "8082:8082"
+    networks:
+      - xueyudarren-network
+    depends_on:
+      - configserver
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+      SPRING_CONFIG_IMPORT: configserver:http://localhost:8090/
+
 networks:
-  eazybank:
+  xueyudarren-network:
