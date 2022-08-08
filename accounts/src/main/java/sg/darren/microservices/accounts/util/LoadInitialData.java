@@ -1,12 +1,12 @@
-package sg.darren.microservices.cards.util;
+package sg.darren.microservices.accounts.util;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import sg.darren.microservices.cards.model.Account;
-import sg.darren.microservices.cards.model.Customer;
-import sg.darren.microservices.cards.repository.CustomerRepository;
-import sg.darren.microservices.cards.repository.AccountRepository;
+import sg.darren.microservices.accounts.model.Account;
+import sg.darren.microservices.accounts.model.Customer;
+import sg.darren.microservices.accounts.repository.CustomerRepository;
+import sg.darren.microservices.accounts.repository.AccountRepository;
 
 import java.time.LocalDate;
 import java.util.Date;

@@ -1,4 +1,4 @@
-package sg.darren.microservices.cards.model;
+package sg.darren.microservices.accounts.model;
 
 import lombok.*;
 

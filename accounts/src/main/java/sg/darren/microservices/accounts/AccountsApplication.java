@@ -1,4 +1,4 @@
-package sg.darren.microservices.cards;
+package sg.darren.microservices.accounts;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
