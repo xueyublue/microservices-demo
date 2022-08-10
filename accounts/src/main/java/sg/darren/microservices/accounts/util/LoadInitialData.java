@@ -17,22 +17,25 @@ public class LoadInitialData {
     @Bean
     CommandLineRunner initDatabase(CustomerRepository customerRepository, AccountRepository accountRepository) {
         return args -> {
-            final Customer c = Customer.builder()
-                    .name("Alice")
-                    .email("alice@email.com")
-                    .mobileNumber("97112233")
-                    .createDt(LocalDate.now())
-                    .build();
-            customerRepository.save(c);
+            if(!customerRepository.findById(Long.parseLong("1")).isPresent()) {
+                Customer c = Customer.builder()
+                        .customerId(Long.parseLong("1"))
+                        .name("Alice")
+                        .email("alice@email.com")
+                        .mobileNumber("97112233")
+                        .createDt(LocalDate.now())
+                        .build();
+                c = customerRepository.save(c);
 
-            final Account a = Account.builder()
-                    .customerId(1)
-                    .accountNumber(new Date().getTime())
-                    .accountType("SAVING")
-                    .branchAddress("12 Block Street 34, Singapore 123456")
-                    .createDt(LocalDate.now())
-                    .build();
-            accountRepository.save(a);
+                final Account a = Account.builder()
+                        .customerId(c.getCustomerId())
+                        .accountNumber(new Date().getTime())
+                        .accountType("SAVING")
+                        .branchAddress("12 Block Street 34, Singapore 123456")
+                        .createDt(LocalDate.now())
+                        .build();
+                accountRepository.save(a);
+            }
         };
     }
 }
