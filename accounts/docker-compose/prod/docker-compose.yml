@@ -50,28 +50,6 @@ services:
       SPRING_CONFIG_IMPORT: configserver:http://configserver:8090/
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eurekaserver:8091/eureka/
 
-#  Second instance of Account Microservices
-#  accounts1:
-#    image: xueyudarren/ms-accounts:latest
-#    mem_limit: 700m
-#    ports:
-#      - "8085:8080"
-#    networks:
-#      - xueyudarren-network
-#    depends_on:
-#      - configserver
-#      - eurekaserver
-#    deploy:
-#      restart_policy:
-#        condition: on-failure
-#        delay: 30s
-#        max_attempts: 3
-#        window: 120s
-#    environment:
-#      SPRING_PROFILES_ACTIVE: prod
-#      SPRING_CONFIG_IMPORT: configserver:http://configserver:8090/
-#      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eurekaserver:8091/eureka/
-
   loans:
     image: xueyudarren/ms-loans:latest
     mem_limit: 700m
