@@ -1,4 +1,4 @@
-package sg.darren.microservices.accounts.model;
+package sg.darren.microservices.accounts.model.entity;
 
 import lombok.*;
 

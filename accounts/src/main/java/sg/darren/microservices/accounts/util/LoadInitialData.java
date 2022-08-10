@@ -3,8 +3,8 @@ package sg.darren.microservices.accounts.util;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import sg.darren.microservices.accounts.model.Account;
-import sg.darren.microservices.accounts.model.Customer;
+import sg.darren.microservices.accounts.model.entity.Account;
+import sg.darren.microservices.accounts.model.entity.Customer;
 import sg.darren.microservices.accounts.repository.CustomerRepository;
 import sg.darren.microservices.accounts.repository.AccountRepository;
 

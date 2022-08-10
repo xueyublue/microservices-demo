@@ -1,4 +1,4 @@
-package sg.darren.microservices.accounts.model;
+package sg.darren.microservices.accounts.model.dto;
 
 import lombok.Getter;
 import lombok.Setter;
