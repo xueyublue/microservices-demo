@@ -10,6 +10,25 @@ services:
     networks:
       - xueyudarren-network
 
+  eurekaserver:
+    image: xueyudarren/ms-eurekaserver:latest
+    mem_limit: 700m
+    ports:
+      - "8091:8091"
+    networks:
+      - xueyudarren-network
+    depends_on:
+      - configserver
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 3
+        window: 120s
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+      SPRING_CONFIG_IMPORT: configserver:http://configserver:8090/
+
   accounts:
     image: xueyudarren/ms-accounts:latest
     mem_limit: 700m
@@ -19,15 +38,17 @@ services:
       - xueyudarren-network
     depends_on:
       - configserver
+      - eurekaserver
     deploy:
       restart_policy:
         condition: on-failure
-        delay: 5s
+        delay: 30s
         max_attempts: 3
         window: 120s
     environment:
       SPRING_PROFILES_ACTIVE: dev
       SPRING_CONFIG_IMPORT: configserver:http://configserver:8090/
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eurekaserver:8091/eureka/
 
   loans:
     image: xueyudarren/ms-loans:latest
@@ -38,15 +59,17 @@ services:
       - xueyudarren-network
     depends_on:
       - configserver
+      - eurekaserver
     deploy:
       restart_policy:
         condition: on-failure
-        delay: 5s
+        delay: 30s
         max_attempts: 3
         window: 120s
     environment:
       SPRING_PROFILES_ACTIVE: dev
       SPRING_CONFIG_IMPORT: configserver:http://configserver:8090/
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eurekaserver:8091/eureka/
 
   cards:
     image: xueyudarren/ms-cards:latest
@@ -57,15 +80,17 @@ services:
       - xueyudarren-network
     depends_on:
       - configserver
+      - eurekaserver
     deploy:
       restart_policy:
         condition: on-failure
-        delay: 5s
+        delay: 30s
         max_attempts: 3
         window: 120s
     environment:
       SPRING_PROFILES_ACTIVE: dev
       SPRING_CONFIG_IMPORT: configserver:http://configserver:8090/
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eurekaserver:8091/eureka/
 
 networks:
   xueyudarren-network:
