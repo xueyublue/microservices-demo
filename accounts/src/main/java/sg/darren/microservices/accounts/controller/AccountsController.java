@@ -3,6 +3,7 @@ package sg.darren.microservices.accounts.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import sg.darren.microservices.accounts.config.AccountsServiceConfig;
@@ -45,7 +46,8 @@ public class AccountsController {
     }
 
     @PostMapping("/customer-details")
-    public CustomerDetails getPropertyDetails(@RequestBody Customer customer) {
+    @CircuitBreaker(name = "detailsForCustomerSupportApp", fallbackMethod = "getCustomerDetailsFallBack")
+    public CustomerDetails getCustomerDetails(@RequestBody Customer customer) {
         Account account = accountRepository.findByCustomerId(customer.getCustomerId());
         List<Loan> loans = loansFeignClient.getLoans(customer);
         List<Card> cards = cardsFeignClient.getCards(customer);
@@ -54,6 +56,17 @@ public class AccountsController {
         customerDetails.setAccounts(account);
         customerDetails.setLoans(loans);
         customerDetails.setCards(cards);
+
+        return customerDetails;
+    }
+
+    private CustomerDetails getCustomerDetailsFallBack(Customer customer, Throwable throwable) {
+        Account account = accountRepository.findByCustomerId(customer.getCustomerId());
+
+        CustomerDetails customerDetails = new CustomerDetails();
+        customerDetails.setAccounts(account);
+        customerDetails.setLoans(null);
+        customerDetails.setCards(null);
 
         return customerDetails;
     }
