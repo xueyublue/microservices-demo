@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
 import io.github.resilience4j.retry.annotation.Retry;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -47,8 +48,8 @@ public class AccountsController {
     }
 
     @PostMapping("/customer-details")
-//    @CircuitBreaker(name = "detailsForCustomerSupportApp", fallbackMethod = "getCustomerDetailsFallBack")
-    @Retry(name = "retryForCustomerDetails", fallbackMethod = "getCustomerDetailsFallBack")
+    @CircuitBreaker(name = "detailsForCustomerSupportApp", fallbackMethod = "getCustomerDetailsFallBack")
+//    @Retry(name = "retryForCustomerDetails", fallbackMethod = "getCustomerDetailsFallBack")
     public CustomerDetails getCustomerDetails(@RequestBody Customer customer) {
         Account account = accountRepository.findByCustomerId(customer.getCustomerId());
         List<Loan> loans = loansFeignClient.getLoans(customer);
@@ -71,6 +72,16 @@ public class AccountsController {
         customerDetails.setCards(null);
 
         return customerDetails;
+    }
+
+    @GetMapping("/sayHello")
+    @RateLimiter(name = "sayHello", fallbackMethod = "sayHelloFallback")
+    public String sayHello() {
+        return "Hello, Welcome to RetailBank";
+    }
+
+    private String sayHelloFallback(Throwable t) {
+        return "Hello, Welcome to RetailBank - Fallback";
     }
 
 }
