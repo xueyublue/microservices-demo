@@ -7,6 +7,8 @@ import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
 import io.github.resilience4j.retry.annotation.Retry;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 import sg.darren.microservices.accounts.config.AccountsServiceConfig;
 import sg.darren.microservices.accounts.model.dto.Card;
@@ -25,6 +27,8 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/accounts")
 public class AccountsController {
+
+    private static final Logger logger = LoggerFactory.getLogger(AccountsController.class);
 
     private final AccountRepository accountRepository;
     private final AccountsServiceConfig accountsServiceConfig;
@@ -50,10 +54,13 @@ public class AccountsController {
     @PostMapping("/customer-details")
     @CircuitBreaker(name = "detailsForCustomerSupportApp", fallbackMethod = "getCustomerDetailsFallBack")
 //    @Retry(name = "retryForCustomerDetails", fallbackMethod = "getCustomerDetailsFallBack")
-    public CustomerDetails getCustomerDetails(@RequestBody Customer customer) {
+    public CustomerDetails getCustomerDetails(@RequestHeader("retailbank-correlation-id") String correlationId,
+                                              @RequestBody Customer customer) {
+        logger.info(String.format("Accounts.getCustomerDetails() invoked with retailbank-correlation-id: %s", correlationId));
+
         Account account = accountRepository.findByCustomerId(customer.getCustomerId());
-        List<Loan> loans = loansFeignClient.getLoans(customer);
-        List<Card> cards = cardsFeignClient.getCards(customer);
+        List<Loan> loans = loansFeignClient.getLoans(correlationId, customer);
+        List<Card> cards = cardsFeignClient.getCards(correlationId, customer);
 
         CustomerDetails customerDetails = new CustomerDetails();
         customerDetails.setAccounts(account);
@@ -63,7 +70,11 @@ public class AccountsController {
         return customerDetails;
     }
 
-    private CustomerDetails getCustomerDetailsFallBack(Customer customer, Throwable throwable) {
+    private CustomerDetails getCustomerDetailsFallBack(@RequestHeader("retailbank-correlation-id") String correlationId,
+                                                       Customer customer,
+                                                       Throwable throwable) {
+        logger.info(String.format("Accounts.getCustomerDetailsFallBack() invoked with retailbank-correlation-id: %s", correlationId));
+
         Account account = accountRepository.findByCustomerId(customer.getCustomerId());
 
         CustomerDetails customerDetails = new CustomerDetails();

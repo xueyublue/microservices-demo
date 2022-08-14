@@ -4,6 +4,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 import sg.darren.microservices.loans.config.LoansServiceConfig;
 import sg.darren.microservices.loans.model.Customer;
@@ -16,13 +18,17 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/loans")
-public class CardsController {
+public class LoansController {
+
+    private static final Logger logger = LoggerFactory.getLogger(LoansController.class);
 
     private final LoanRepository loanRepository;
     private final LoansServiceConfig loansServiceConfig;
 
     @PostMapping
-    public List<Loan> getCardList(@RequestBody Customer customer) {
+    public List<Loan> getLoanList(@RequestHeader("retailbank-correlation-id") String correlationId,
+                                  @RequestBody Customer customer) {
+        logger.info(String.format("CardsController.getLoanList() invoked with retailbank-correlation-id: %s", correlationId));
         return loanRepository.findByCustomerIdOrderByStartDtDesc(customer.getCustomerId());
     }
 
