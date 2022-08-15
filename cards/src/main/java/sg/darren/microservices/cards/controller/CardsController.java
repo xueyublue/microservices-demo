@@ -29,7 +29,7 @@ public class CardsController {
     public List<Card> getCardList(@RequestHeader("retailbank-correlation-id") String correlationId,
                                   @RequestBody Customer customer) {
         logger.info(String.format("CardsController.getCardList() invoked with retailbank-correlation-id: %s", correlationId));
-
+        logger.info("getCardList() called.");
         return cardRepository.findByCustomerId(customer.getCustomerId());
     }
 

@@ -29,6 +29,7 @@ public class LoansController {
     public List<Loan> getLoanList(@RequestHeader("retailbank-correlation-id") String correlationId,
                                   @RequestBody Customer customer) {
         logger.info(String.format("CardsController.getLoanList() invoked with retailbank-correlation-id: %s", correlationId));
+        logger.info("getLoanList() called.");
         return loanRepository.findByCustomerIdOrderByStartDtDesc(customer.getCustomerId());
     }
 

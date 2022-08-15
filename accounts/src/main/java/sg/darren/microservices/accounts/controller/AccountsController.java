@@ -57,6 +57,7 @@ public class AccountsController {
     public CustomerDetails getCustomerDetails(@RequestHeader("retailbank-correlation-id") String correlationId,
                                               @RequestBody Customer customer) {
         logger.info(String.format("Accounts.getCustomerDetails() invoked with retailbank-correlation-id: %s", correlationId));
+        logger.info("Enter getCustomerDetails()");
 
         Account account = accountRepository.findByCustomerId(customer.getCustomerId());
         List<Loan> loans = loansFeignClient.getLoans(correlationId, customer);
@@ -67,6 +68,7 @@ public class AccountsController {
         customerDetails.setLoans(loans);
         customerDetails.setCards(cards);
 
+        logger.info("Exit getCustomerDetails()");
         return customerDetails;
     }
 
