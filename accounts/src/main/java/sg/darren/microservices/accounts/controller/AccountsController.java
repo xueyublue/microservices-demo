@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
 import io.github.resilience4j.retry.annotation.Retry;
+import io.micrometer.core.annotation.Timed;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,6 +37,7 @@ public class AccountsController {
     private final LoansFeignClient loansFeignClient;
 
     @PostMapping
+    @Timed(value = "getAccountList.time", description = "Time taken to return Account Details")
     public Account getAccountList(@RequestBody Customer customer) {
         return accountRepository.findByCustomerId(customer.getCustomerId());
     }
