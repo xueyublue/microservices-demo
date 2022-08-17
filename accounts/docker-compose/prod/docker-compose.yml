@@ -2,6 +2,14 @@ version: "3.8"
 
 services:
 
+  zipkin:
+    image: openzipkin/zipkin
+    mem_limit: 700m
+    ports:
+      - "9411:9411"
+    networks:
+      - xueyudarren-network
+
   configserver:
     image: xueyudarren/ms-configserver:latest
     mem_limit: 700m
