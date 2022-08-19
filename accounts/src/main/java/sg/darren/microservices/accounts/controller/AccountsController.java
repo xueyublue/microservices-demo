@@ -55,7 +55,7 @@ public class AccountsController {
 
     @PostMapping("/customer-details")
     @CircuitBreaker(name = "detailsForCustomerSupportApp", fallbackMethod = "getCustomerDetailsFallBack")
-//    @Retry(name = "retryForCustomerDetails", fallbackMethod = "getCustomerDetailsFallBack")
+    @Retry(name = "retryForCustomerDetails", fallbackMethod = "getCustomerDetailsFallBack")
     public CustomerDetails getCustomerDetails(@RequestHeader("retailbank-correlation-id") String correlationId,
                                               @RequestBody Customer customer) {
         logger.info(String.format("Accounts.getCustomerDetails() invoked with retailbank-correlation-id: %s", correlationId));
